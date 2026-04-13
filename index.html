@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Iku-toppene</title>
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Iku-toppene" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iku-toppene.no">
+    <meta property="og:title" content="Iku-toppene" />
+    <meta property="og:description" content="The best CTF team in Norway. Sponsored by IQT Industries." />
+    <meta property="og:image" content="https://iku-toppene.no/logo.png" />
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://iku-toppene.no">
+    <meta property="twitter:title" content="Iku-toppene" />
+    <meta property="twitter:description" content="The best CTF team in Norway. Sponsored by IQT Industries." />
+    <meta property="twitter:image" content="https://iku-toppene.no/logo.png" />
+
+    <link rel="preload" href="logo.png" as="image">
+    <script>
+      (function () {
+        const savedMode = localStorage.getItem('themeMode') || 'system';
+        const mode = (savedMode === 'light' || savedMode === 'dark' || savedMode === 'system')
+          ? savedMode
+          : 'system';
+        if (mode === 'system') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', mode);
+        }
+      })();
+    </script>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  
+  <body>
+    <header>
+      <div class="header-brand">
+        <img class="header-logo" src="logo.png" alt="Iku-toppene logo">
+        <p class="header-tagline">The best CTF team in Norway.<br />Sponsored by IQT Industries.</p>
+      </div>
+
+      <div class="header-actions" aria-label="Header actions">
+        <a class="icon-btn" href="https://soundcloud.com/carixo/iku-toppene-har-gjort-det-igjen" target="_blank" aria-label="SoundCloud link 1" title="SoundCloud">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 3v11.26a3.5 3.5 0 1 0 2 3.14V8h2V3h-4Zm-9 2v8.26a3.5 3.5 0 1 0 2 3.14V10h2V5H9Z"/>
+          </svg>
+        </a>
+
+        <a class="icon-btn" href="https://soundcloud.com/carixo/iku-toppene" target="_blank" aria-label="SoundCloud link 2" title="SoundCloud">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 3v11.26a3.5 3.5 0 1 0 2 3.14V8h2V3h-4Zm-9 2v8.26a3.5 3.5 0 1 0 2 3.14V10h2V5H9Z"/>
+          </svg>
+        </a>
+
+        <button id="theme-toggle" class="icon-btn mode-btn" type="button">System</button>
+      </div>
+
+      <script>
+        (function () {
+          const mode = localStorage.getItem('themeMode') || 'system';
+          const btn = document.getElementById('theme-toggle');
+          if (!btn) return;
+          btn.textContent = mode[0].toUpperCase() + mode.slice(1);
+        })();
+      </script>
+
+      <img class="header-mark" src="logo.svg" alt="Iku-toppene mark" tabindex="0">
+      <canvas id="canvas"></canvas>
+    </header>
+    
+    <main>
+      <section class="members-section">
+        <ul id="members">
+          <li><a class="member-card" href="https://github.com/OleFredrik1">
+            <img src="iku-of.webp">
+            <span class="member-name">olefredrik</span>
+          </a></li>
+          <li><a class="member-card" href="https://github.com/tweey">
+            <img src="iku-kiwi.webp">
+            <span class="member-name">Tweey</span>
+          </a></li>
+          <li><a class="member-card" href="https://shirajuki.js.org/">
+            <img src="iku-sh.webp">
+            <span class="member-name">Shirajuki</span>
+          </a></li>
+          <li><a class="member-card" href="https://github.com/carixohd">
+            <img src="iku-carixo.webp">
+            <span class="member-name">Carixo</span>
+          </a></li>
+          <li><a class="member-card" href="https://github.com/bjornmorten">
+            <img src="iku-bm.webp">
+            <span class="member-name">bjornmorten</span>
+          </a></li>
+          <li><a class="member-card" href="https://github.com/joleeee">
+            <img src="iku-jole.webp">
+            <span class="member-name">jole</span>
+          </a></li>
+          <li><a class="member-card">
+            <img src="logo.png">
+            <span class="member-name">Misi</span>
+          </a></li>
+          <li><a class="member-card" href="https://github.com/txt231">
+            <img src="iku-txt.webp">
+            <span class="member-name">txtblck</span>
+          </a></li>
+          <li><a class="member-card" href="https://zukane.github.io/">
+            <img src="iku-zukane.webp">
+            <span class="member-name">Zukane</span>
+          </a></li>
+          <li><a class="member-card">
+            <img src="iku-blood.jpg">
+            <span class="member-name">Iku-blood</span>
+          </a></li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
+
