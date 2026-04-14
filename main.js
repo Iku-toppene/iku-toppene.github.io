@@ -46,7 +46,7 @@ function setupHeaderMarkCycle() {
   const headerMark = document.querySelector('.header-mark');
   if (!headerMark) return;
 
-  const markSources = ['logo.svg', 'sticker-1.png', 'sticker-2.png'];
+  const markSources = ['logo.svg', 'sticker-1.webp', 'sticker-2.webp'];
   let currentIndex = 0;
   let isTransitioning = false;
 

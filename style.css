@@ -1,6 +1,7 @@
 @font-face {
   font-family: "Super Milk";
-  src: url("./Super Milk.ttf") format("truetype");
+  src: url("./Super Milk.woff2") format("woff2"),
+       url("./Super Milk.ttf") format("truetype");
   font-display: swap;
 }
 :root {
