@@ -274,7 +274,7 @@ canvas {
         height: 2rem;
     }
     #theme-toggle {
-        width: 3rem;
+        width: 4.25rem;
     }
     .icon-btn svg {
         width: 1rem;
@@ -318,5 +318,14 @@ canvas {
     .member-name {
         font-size: 0.85rem;
     }
+  }
+}
+
+@media (max-width: 420px) {
+  html {
+    font-size: 14px;
+  }
+  .header-logo {
+    display: none;
   }
 }

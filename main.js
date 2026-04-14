@@ -6,6 +6,8 @@ const sprites = [];
 
 let spriteImage = null;
 let penguinImage = null;
+let canvasLogicalWidth = 0;
+let canvasLogicalHeight = 0;
 
 function getSpriteSize() {
   return window.innerWidth < 544 ? 60 : 90;
@@ -83,7 +85,7 @@ function setupHeaderMarkCycle() {
 class Sprite {
   constructor() {
     this.size = getSpriteSize();
-    this.x = Math.random() * canvas.width;
+    this.x = Math.random() * canvasLogicalWidth;
     this.speed = 0.5 + Math.random() * 1.5;
     this.walkPhase = Math.random() * Math.PI * 2;
     this.walkSpeed = 0.05;
@@ -145,7 +147,7 @@ class Sprite {
     }
     
     const minX = this.size / 2;
-    const maxX = canvas.width - this.size / 2;
+    const maxX = canvasLogicalWidth - this.size / 2;
     if (this.x < minX) {
       this.x = minX;
       this.targetDirection = 1;
@@ -211,12 +213,11 @@ function loadSpriteImage() {
 }
 
 function animate() {
-  resizeCanvases();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasLogicalWidth, canvasLogicalHeight);
 
   sprites.forEach(sprite => {
     sprite.update();
-    sprite.draw(ctx, canvas.height);
+    sprite.draw(ctx, canvasLogicalHeight);
   });
   requestAnimationFrame(animate);
 }
@@ -225,14 +226,24 @@ function resizeCanvases() {
   const header = document.querySelector('header');
   if (!header) return;
   const rect = header.getBoundingClientRect();
-  canvas.width = rect.width;
-  canvas.height = rect.height;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const nextLogicalWidth = rect.width;
+  const nextLogicalHeight = rect.height;
+
+  canvasLogicalWidth = nextLogicalWidth;
+  canvasLogicalHeight = nextLogicalHeight;
+
+  canvas.width = Math.round(nextLogicalWidth * dpr);
+  canvas.height = Math.round(nextLogicalHeight * dpr);
+  canvas.style.width = `${nextLogicalWidth}px`;
+  canvas.style.height = `${nextLogicalHeight}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   const nextSize = getSpriteSize();
   sprites.forEach((sprite) => {
     sprite.size = nextSize;
     const minX = sprite.size / 2;
-    const maxX = canvas.width - sprite.size / 2;
+    const maxX = canvasLogicalWidth - sprite.size / 2;
     sprite.x = Math.max(minX, Math.min(sprite.x, maxX));
   });
 }
