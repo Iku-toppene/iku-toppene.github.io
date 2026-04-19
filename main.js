@@ -4,13 +4,14 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const sprites = [];
 
-let spriteImage = null;
-let penguinImage = null;
+const spriteAssets = {
+  cows: {},
+};
 let canvasLogicalWidth = 0;
 let canvasLogicalHeight = 0;
 
 function getSpriteSize() {
-  return window.innerWidth < 544 ? 60 : 90;
+  return window.innerWidth < 544 ? 60 : 120;
 }
 
 function setupThemeToggle() {
@@ -180,36 +181,57 @@ class Sprite {
 
     const scaleX = this.getScaleX();
     const y = this.getYPosition(canvasHeight);
+    const sourceInset = 1;
+    const sourceWidth = Math.max(1, this.image.naturalWidth - sourceInset * 2);
+    const sourceHeight = Math.max(1, this.image.naturalHeight - sourceInset * 2);
 
     context.save();
     context.globalAlpha = this.fadeInProgress;
     context.translate(this.x, y);
     context.scale(scaleX * -1, 1);
-    context.drawImage(this.image, -this.size / 2, -this.size / 2, this.size, this.size);
+    context.drawImage(
+      this.image,
+      sourceInset,
+      sourceInset,
+      sourceWidth,
+      sourceHeight,
+      -this.size / 2,
+      -this.size / 2,
+      this.size,
+      this.size,
+    );
     context.restore();
   }
 }
 
 function loadSpriteImage() {
-    let loaded = 0;
+  const cowSources = [
+    'ikucow-blood.png',
+    'ikucow-bm.png',
+    'ikucow-carixo.png',
+    'ikucow-j9.png',
+    'ikucow-jole.png',
+    'ikucow-kiwi.png',
+    'ikucow-misi.png',
+    'ikucow-of.png',
+    'ikucow-txt.png',
+    'ikucow-zuk.png',
+  ];
 
-  const cowImg = new Image();
-  cowImg.src = './iku-cow.png';
-  cowImg.onload = () => {
-    spriteImage = cowImg;
-        if (++loaded === 2) {
-            start();
-        }
-  };
+  let loaded = 0;
+  const total = cowSources.length;
 
-    const pengImg = new Image();
-  pengImg.src = './iku-penguin.png';
-  pengImg.onload = () => {
-    penguinImage = pengImg;
-        if (++loaded === 2) {
-            start();
-        }
-  };
+  cowSources.forEach((source) => {
+    const img = new Image();
+    img.src = `./${source}`;
+    img.onload = () => {
+      spriteAssets.cows[source] = img;
+      loaded += 1;
+      if (loaded === total) {
+        start();
+      }
+    };
+  });
 }
 
 function animate() {
@@ -238,6 +260,8 @@ function resizeCanvases() {
   canvas.style.width = `${nextLogicalWidth}px`;
   canvas.style.height = `${nextLogicalHeight}px`;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
 
   const nextSize = getSpriteSize();
   sprites.forEach((sprite) => {
@@ -252,16 +276,19 @@ window.addEventListener('resize', () => {
 });
 
 function start() {
-    resizeCanvases();
+  resizeCanvases();
 
-    sprites.length = 0;
-    const penguinIndex = Math.floor(Math.random() * SPRITE_COUNT);
-    for (let i = 0; i < SPRITE_COUNT; i++) {
-        const sprite = new Sprite();
-        sprite.image = i === penguinIndex ? penguinImage : spriteImage;
-        sprites.push(sprite);
-    }
-    requestAnimationFrame(animate);
+  sprites.length = 0;
+  const cowImages = Object.values(spriteAssets.cows);
+  if (cowImages.length === 0) return;
+
+  for (let i = 0; i < SPRITE_COUNT; i++) {
+    const sprite = new Sprite();
+    sprite.image = cowImages[i % cowImages.length];
+    sprites.push(sprite);
+  }
+
+  requestAnimationFrame(animate);
 }
 loadSpriteImage();
 setupThemeToggle();
